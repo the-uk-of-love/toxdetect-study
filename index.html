@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Environmental Toxic Burden Study – Hertfordshire, UK 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F1EB;
+    --bg-deep: #E8E2D8;
+    --text: #1A1A1A;
+    --text-muted: #5A5550;
+    --accent: #2D6A4F;
+    --accent-light: #40916C;
+    --accent-pale: #D8F3DC;
+    --danger: #C44536;
+    --danger-pale: #FCE8E6;
+    --highlight: #E9C46A;
+    --white: #FFFFFF;
+    --card-shadow: 0 2px 20px rgba(0,0,0,0.06);
+    --serif: 'Instrument Serif', Georgia, serif;
+    --sans: 'DM Sans', -apple-system, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(170deg, #1B3A2D 0%, #2D6A4F 40%, #40916C 100%);
+    color: var(--white);
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 80%, rgba(233,196,106,0.12) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255,255,255,0.06) 0%, transparent 40%);
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.75' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 780px;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 0.5rem 1.2rem;
+    border-radius: 100px;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(4px);
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--highlight);
+  }
+
+  .hero-sub {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    opacity: 0.88;
+    max-width: 600px;
+    margin: 0 auto 2.5rem;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    background: var(--highlight);
+    color: var(--text);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 1rem 2.4rem;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(233,196,106,0.3);
+  }
+
+  .hero-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 28px rgba(233,196,106,0.45);
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    opacity: 0.5;
+    animation: bounce 2s infinite;
+  }
+
+  .scroll-hint svg { width: 24px; height: 24px; }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 5rem 2rem; }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-body {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    max-width: 680px;
+  }
+
+  .section-body p + p { margin-top: 1rem; }
+
+  /* ── PROBLEM / CREDIT CARD ── */
+  .problem {
+    background: var(--white);
+  }
+
+  .stat-card {
+    margin: 2.5rem 0;
+    background: var(--danger-pale);
+    border-left: 4px solid var(--danger);
+    border-radius: 0 12px 12px 0;
+    padding: 2rem 2.5rem;
+  }
+
+  .stat-card .big-stat {
+    font-family: var(--serif);
+    font-size: 2.8rem;
+    color: var(--danger);
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-card .stat-desc {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .stat-card .stat-source {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--accent);
+  }
+
+  .stat-card .stat-source:hover { border-bottom-style: solid; }
+
+  .symptom-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .symptom-item {
+    background: var(--bg);
+    border-radius: 10px;
+    padding: 1.2rem 1.4rem;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .symptom-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--accent-pale);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1rem;
+  }
+
+  /* ── WHAT WE TEST ── */
+  .what-we-test {
+    background: var(--bg);
+  }
+
+  .test-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+
+  .test-cat {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 1.8rem;
+    box-shadow: var(--card-shadow);
+    border: 1px solid rgba(0,0,0,0.04);
+    transition: transform 0.2s;
+  }
+
+  .test-cat:hover { transform: translateY(-3px); }
+
+  .test-cat h4 {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+  }
+
+  .test-cat p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .test-cat .examples {
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--accent-light);
+    font-style: italic;
+  }
+
+  /* ── ORGAN SAFETY ── */
+  .organ-safety {
+    background: var(--white);
+  }
+
+  .safety-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 600px) {
+    .safety-panels { grid-template-columns: 1fr; }
+  }
+
+  .safety-panel {
+    background: var(--bg);
+    border-radius: 14px;
+    padding: 2rem;
+  }
+
+  .safety-panel h4 {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .safety-panel ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .safety-panel li {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    padding: 0.4rem 0;
+    padding-left: 1.4rem;
+    position: relative;
+  }
+
+  .safety-panel li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ── BENEFITS ── */
+  .benefits {
+    background: linear-gradient(170deg, #1B3A2D 0%, #2D6A4F 60%, #40916C 100%);
+    color: var(--white);
+  }
+
+  .benefits .section-label { color: var(--highlight); }
+  .benefits .section-body { color: rgba(255,255,255,0.8); }
+
+  .benefit-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .benefit-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px;
+    padding: 2rem;
+    backdrop-filter: blur(8px);
+    transition: background 0.2s;
+  }
+
+  .benefit-card:hover { background: rgba(255,255,255,0.12); }
+
+  .benefit-number {
+    font-family: var(--serif);
+    font-size: 2rem;
+    color: var(--highlight);
+    margin-bottom: 0.5rem;
+  }
+
+  .benefit-card h4 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .benefit-card p {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.6;
+  }
+
+  /* ── VALUE CALLOUT ── */
+  .value-callout {
+    background: var(--bg);
+  }
+
+  .value-box {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 3rem;
+    box-shadow: var(--card-shadow);
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+    border: 2px solid var(--accent-pale);
+  }
+
+  .value-box .price-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+  }
+
+  .value-box .price {
+    font-family: var(--serif);
+    font-size: 2.8rem;
+    color: var(--accent);
+  }
+
+  .value-box .price-note {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+  }
+
+  .value-breakdown {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+    text-align: left;
+  }
+
+  @media (max-width: 500px) {
+    .value-breakdown { grid-template-columns: 1fr; }
+  }
+
+  .value-item {
+    background: var(--bg);
+    border-radius: 10px;
+    padding: 1.2rem;
+  }
+
+  .value-item strong {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--accent);
+    margin-bottom: 0.25rem;
+  }
+
+  .value-item span {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how-it-works {
+    background: var(--white);
+  }
+
+  .steps {
+    margin-top: 2.5rem;
+    position: relative;
+  }
+
+  .step {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+
+  .step-num {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .step:not(:last-child) .step-num::after {
+    content: '';
+    position: absolute;
+    top: 48px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: calc(100% + 1rem);
+    background: var(--accent-pale);
+  }
+
+  .step-content h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+
+  .step-content p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ── WHO ── */
+  .who {
+    background: var(--bg);
+  }
+
+  .criteria-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 600px) {
+    .criteria-grid { grid-template-columns: 1fr; }
+  }
+
+  .criteria-box {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 2rem;
+    box-shadow: var(--card-shadow);
+  }
+
+  .criteria-box h4 {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+    color: var(--accent);
+  }
+
+  .criteria-box ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .criteria-box li {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    padding: 0.4rem 0;
+    padding-left: 1.6rem;
+    position: relative;
+  }
+
+  .criteria-box li::before {
+    content: attr(data-icon);
+    position: absolute;
+    left: 0;
+    font-size: 0.9rem;
+  }
+
+  /* ── CTA SECTION ── */
+  .cta-section {
+    background: linear-gradient(170deg, #1B3A2D, #2D6A4F);
+    color: var(--white);
+    text-align: center;
+    padding: 5rem 2rem;
+  }
+
+  .cta-section .section-title { color: var(--white); }
+
+  .cta-section p {
+    color: rgba(255,255,255,0.8);
+    font-size: 1.05rem;
+    max-width: 560px;
+    margin: 0 auto 2rem;
+  }
+
+  .cta-section .hero-cta {
+    font-size: 1.1rem;
+    padding: 1.1rem 2.8rem;
+  }
+
+  .cta-spots {
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.55);
+    font-style: italic;
+  }
+
+  /* ── TRUST ── */
+  .trust {
+    background: var(--bg-deep);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+
+  .trust p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    max-width: 680px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  .trust p + p { margin-top: 0.75rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--text);
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.8rem;
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Hertfordshire & North London · 2026</div>
+    <h1>What's really inside <em>your</em> body?</h1>
+    <p class="hero-sub">Join our 60-day Environmental Toxic Burden Study and discover the hidden chemicals in your system — with full blood and urine lab panels, physician-reviewed results, and actionable health insights. All at no cost to you.</p>
+    <a href="#apply" class="hero-cta">Apply to Take Part →</a>
+  </div>
+  <div class="scroll-hint">
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+  </div>
+</section>
+
+<!-- ─── THE PROBLEM ─── -->
+<section class="problem" id="why">
+  <div class="container fade-up">
+    <div class="section-label">The invisible problem</div>
+    <h2 class="section-title">You can't avoid what you can't see</h2>
+    <div class="section-body">
+      <p>Every day, you're exposed to environmental chemicals — through the food you eat, the water you drink, the air you breathe, and the products you use. Plastics, pesticides, industrial compounds, and household chemicals accumulate silently in your body over time.</p>
+    </div>
+
+    <div class="stat-card">
+      <div class="big-stat">~5g of plastic per week</div>
+      <div class="stat-desc">A WWF-commissioned study by the University of Newcastle found that people may ingest approximately 5 grams of microplastics weekly — roughly the weight of a credit card. The biggest source? Drinking water, both bottled and tap.</div>
+      <a href="https://wwf.panda.org/wwf_news/?348337/Revealed-plastic-ingestion-by-people-could-be-equating-to-a-credit-card-a-week" class="stat-source" target="_blank" rel="noopener">WWF / University of Newcastle, 2019 →</a>
+    </div>
+
+    <div class="section-body">
+      <p>This toxic burden has been linked to a wide range of symptoms that many people experience but can never fully explain:</p>
+    </div>
+
+    <div class="symptom-grid">
+      <div class="symptom-item"><div class="symptom-icon">🔋</div> Persistent fatigue</div>
+      <div class="symptom-item"><div class="symptom-icon">🧠</div> Brain fog & memory issues</div>
+      <div class="symptom-item"><div class="symptom-icon">😣</div> Recurring headaches</div>
+      <div class="symptom-item"><div class="symptom-icon">😶‍🌫️</div> Mood changes</div>
+      <div class="symptom-item"><div class="symptom-icon">🤢</div> Nausea</div>
+      <div class="symptom-item"><div class="symptom-icon">🫁</div> Respiratory problems</div>
+      <div class="symptom-item"><div class="symptom-icon">👁️</div> Eye irritation</div>
+      <div class="symptom-item"><div class="symptom-icon">⚡</div> Neurological symptoms</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── WHAT WE TEST ─── -->
+<section class="what-we-test" id="tests">
+  <div class="container fade-up">
+    <div class="section-label">Comprehensive screening</div>
+    <h2 class="section-title">27 environmental toxicants, one urine sample</h2>
+    <div class="section-body">
+      <p>Using the clinically validated TOXDetect panel by Mosaic Diagnostics, we screen for metabolites from the most common classes of environmental chemicals — the ones you encounter every single day.</p>
+    </div>
+
+    <div class="test-categories">
+      <div class="test-cat">
+        <h4>Phthalates</h4>
+        <p>Endocrine-disrupting chemicals found in food packaging, toys, shampoo, and vinyl flooring. Exposure is virtually universal.</p>
+        <div class="examples">MEP, MBP, MEHP, MEOHP, MiBP</div>
+      </div>
+      <div class="test-cat">
+        <h4>Bisphenols</h4>
+        <p>Used in plastics and resins — food containers, water bottles, dental sealants. "BPA-Free" alternatives like BPS may carry similar risks.</p>
+        <div class="examples">BPA, BPS</div>
+      </div>
+      <div class="test-cat">
+        <h4>Volatile Organic Compounds</h4>
+        <p>Found in household products, building materials, paints, vehicle emissions, and cigarette smoke. Easily inhaled or absorbed.</p>
+        <div class="examples">Xylene, Styrene, Benzene, Vinyl Chloride metabolites</div>
+      </div>
+      <div class="test-cat">
+        <h4>Pesticides</h4>
+        <p>Exposure through contaminated food, water, air, and soil — from agricultural and household use.</p>
+        <div class="examples">Glyphosate, Atrazine, 2,4-D, 3-PBA, DEP</div>
+      </div>
+      <div class="test-cat">
+        <h4>Parabens</h4>
+        <p>Preservatives widely used in cosmetics, skincare, and personal care products. Absorbed through the skin daily.</p>
+        <div class="examples">Methylparaben, Ethylparaben, Propylparaben, Butylparaben</div>
+      </div>
+      <div class="test-cat">
+        <h4>Other Chemicals</h4>
+        <p>Additional toxicants that contribute to chronic toxic overload through multiple exposure routes.</p>
+        <div class="examples">Oxybenzone, Perchlorate, Diphenyl Phosphate</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ORGAN SAFETY ─── -->
+<section class="organ-safety">
+  <div class="container fade-up">
+    <div class="section-label">Safety monitoring</div>
+    <h2 class="section-title">Your liver and kidneys, closely monitored</h2>
+    <div class="section-body">
+      <p>Because the liver and kidneys are the body's primary detoxification organs, we include full clinical panels at both timepoints — reviewed by a physician — to ensure your safety throughout the study.</p>
+    </div>
+
+    <div class="safety-panels">
+      <div class="safety-panel">
+        <h4>🫀 Liver Function Panel</h4>
+        <ul>
+          <li>Bilirubin</li>
+          <li>ALP (Alkaline Phosphatase)</li>
+          <li>ALT (Alanine Aminotransferase)</li>
+          <li>GGT (Gamma-Glutamyl Transferase)</li>
+          <li>Total Protein, Albumin & Globulin</li>
+        </ul>
+      </div>
+      <div class="safety-panel">
+        <h4>🔬 Kidney Function Panel</h4>
+        <ul>
+          <li>Creatinine & eGFR</li>
+          <li>Urea & Sodium</li>
+          <li>Urine Microalbumin</li>
+          <li>Albumin:Creatinine Ratio (ACR)</li>
+          <li>Urine Creatinine</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── BENEFITS ─── -->
+<section class="benefits" id="benefits">
+  <div class="container fade-up">
+    <div class="section-label">Why take part</div>
+    <h2 class="section-title">What you get — at no cost</h2>
+    <div class="section-body">
+      <p>Participants receive a comprehensive health assessment package that would normally cost hundreds of pounds — entirely free of charge.</p>
+    </div>
+
+    <div class="benefit-cards">
+      <div class="benefit-card">
+        <div class="benefit-number">01</div>
+        <h4>Full Toxicology Report</h4>
+        <p>See exactly which environmental chemicals are present in your body, with two snapshots — baseline and 60 days later — so you can track changes over time.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-number">02</div>
+        <h4>Liver & Kidney Health Check</h4>
+        <p>Complete hepatic and renal blood panels at both timepoints, giving you clinical insight into how your detoxification organs are functioning.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-number">03</div>
+        <h4>Physician-Reviewed Results</h4>
+        <p>Every blood result comes with a clinical interpretation from a physician — not just raw numbers, but what they actually mean for you.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-number">04</div>
+        <h4>Home-Based Testing</h4>
+        <p>A qualified phlebotomist visits your home for blood draws. Urine samples are collected with a simple home kit. No clinic visits needed.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-number">05</div>
+        <h4>Actionable Health Insights</h4>
+        <p>Understanding your toxic burden can guide practical lifestyle changes — from choosing different products to adjusting diet and hydration habits.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-number">06</div>
+        <h4>Contribute to Research</h4>
+        <p>Help build vital data on environmental chemical exposure in the UK population — your participation contributes to a growing and important field of health science.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── VALUE CALLOUT ─── -->
+<section class="value-callout">
+  <div class="container fade-up">
+    <div class="value-box">
+      <div class="price-label">Total value of testing provided to each participant</div>
+      <div class="price">£500+ worth of lab panels</div>
+      <div class="price-note">Provided at no cost. All testing through accredited third-party laboratories.</div>
+
+      <div class="value-breakdown">
+        <div class="value-item">
+          <strong>TOXDetect Panel ×2</strong>
+          <span>27 biomarkers — phthalates, bisphenols, VOCs, pesticides, parabens & more</span>
+        </div>
+        <div class="value-item">
+          <strong>Hepatic Panel ×2</strong>
+          <span>7 liver function markers with physician interpretation</span>
+        </div>
+        <div class="value-item">
+          <strong>Renal Panel ×2</strong>
+          <span>4 kidney function blood markers plus urine microalbumin</span>
+        </div>
+        <div class="value-item">
+          <strong>Home Phlebotomy ×2</strong>
+          <span>Qualified professional visits your home — no clinic trips required</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HOW IT WORKS ─── -->
+<section class="how-it-works" id="how">
+  <div class="container fade-up">
+    <div class="section-label">The process</div>
+    <h2 class="section-title">How it works</h2>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Apply & Get Accepted</h4>
+          <p>Send us a message to express your interest. We'll confirm your eligibility and walk you through everything. Only 20–30 spots are available.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Baseline Testing (Day 0)</h4>
+          <p>A phlebotomist visits your home for a blood draw. You also provide a urine sample using a simple collection kit. We record lifestyle variables for accuracy.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>60-Day Study Period</h4>
+          <p>Continue your daily routine with MasterPeace® use as directed. The study evaluates changes in your environmental toxic burden over this period.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>Follow-Up Testing (Day 60)</h4>
+          <p>Repeat the same blood and urine tests. Compare results against your baseline to see how your toxic burden and organ function have changed.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h4>Receive Your Full Report</h4>
+          <p>Get your personal toxicology and organ function results — with clinical interpretation — giving you a detailed picture of your internal health.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── WHO WE'RE LOOKING FOR ─── -->
+<section class="who" id="who">
+  <div class="container fade-up">
+    <div class="section-label">Eligibility</div>
+    <h2 class="section-title">Who we're looking for</h2>
+
+    <div class="criteria-grid">
+      <div class="criteria-box">
+        <h4>Ideal participants</h4>
+        <ul>
+          <li data-icon="📍">Based in Hertfordshire or North London</li>
+          <li data-icon="🗓️">Able to commit to the full 60-day study</li>
+          <li data-icon="🩸">Comfortable with two blood draws at home</li>
+          <li data-icon="📋">Willing to record basic lifestyle factors at each timepoint</li>
+        </ul>
+      </div>
+      <div class="criteria-box">
+        <h4>You might be a great fit if you…</h4>
+        <ul>
+          <li data-icon="💭">Experience unexplained fatigue, brain fog, or headaches</li>
+          <li data-icon="🔎">Are curious about what chemicals are in your body</li>
+          <li data-icon="🌱">Want to make informed changes to reduce toxic exposure</li>
+          <li data-icon="🧪">Are interested in contributing to health research</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ─── -->
+<section class="cta-section" id="apply">
+  <div class="container fade-up">
+    <h2 class="section-title">Ready to find out what's inside you?</h2>
+    <p>Places are limited to 20–30 participants. Apply now to secure your spot in this free, clinically supervised study.</p>
+    <a href="mailto:study@example.com?subject=Toxic%20Burden%20Study%20Application" class="hero-cta">Apply Now — It's Free →</a>
+    <div class="cta-spots">Study designed by Caroline Mansfield · April 2026</div>
+  </div>
+</section>
+
+<!-- ─── TRUST ─── -->
+<section class="trust">
+  <p>All testing is performed through accredited third-party laboratories. Hepatic and renal function results include a physician's clinical interpretation. The TOXDetect panel is provided by Mosaic Diagnostics, using LC-MS/MS technology.</p>
+  <p>Contextual variables — including hydration, alcohol intake, exercise, medications, and recent illness — are recorded at each timepoint to ensure data reliability.</p>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <p>Environmental Toxic Burden Study · Hertfordshire, UK · 2026</p>
+</footer>
+
+<script>
+  // Intersection Observer for fade-up animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
