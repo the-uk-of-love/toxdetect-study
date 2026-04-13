@@ -591,6 +591,50 @@
     width: 100%;
   }
 
+  .form-notice {
+    max-width: 720px;
+    margin: 2rem auto 0;
+    padding: 1rem 1.4rem;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-left: 3px solid var(--highlight);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.55;
+    text-align: left;
+  }
+
+  .form-notice strong {
+    color: var(--highlight);
+  }
+
+  .form-notice a {
+    color: var(--highlight);
+    text-decoration: underline;
+    font-weight: 600;
+  }
+
+  .form-notice a:hover {
+    color: var(--white);
+  }
+
+  .form-backup {
+    margin: 1.5rem auto 2rem;
+    text-align: center;
+  }
+
+  .form-backup p {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 0.8rem;
+  }
+
+  .form-backup .hero-cta {
+    font-size: 0.95rem;
+    padding: 0.9rem 2rem;
+  }
+
   .cta-spots {
     margin-top: 1.5rem;
     font-size: 0.85rem;
@@ -943,8 +987,17 @@ src="https://www.facebook.com/tr?id=1317981000047808&ev=PageView&noscript=1"
     <h2 class="section-title">Ready to find out what's inside you?</h2>
     <p>Places are limited to 20–30 participants. Complete the short application form below to secure your spot in this free, clinically supervised study.</p>
 
+    <div class="form-notice">
+      <strong>Form not loading?</strong> Some browsers (like Firefox with strict privacy settings) may block embedded Google Forms. If you don't see the form below, please <a href="https://docs.google.com/forms/d/e/1FAIpQLSdXFrLpaZ-X45Pn99uOZaH3QwCgUtMiImXnkjRnZ-6Ui6HPEg/viewform" target="_blank" rel="noopener">open it directly in a new tab</a>.
+    </div>
+
     <div class="form-wrapper">
-      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdXFrLpaZ-X45Pn99uOZaH3QwCgUtMiImXnkjRnZ-6Ui6HPEg/viewform?embedded=true" width="100%" height="2288" frameborder="0" marginheight="0" marginwidth="0" title="Study Application Form">Loading…</iframe>
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdXFrLpaZ-X45Pn99uOZaH3QwCgUtMiImXnkjRnZ-6Ui6HPEg/viewform" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0" title="Study Application Form">Loading…</iframe>
+    </div>
+
+    <div class="form-backup">
+      <p>Having trouble with the form above?</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdXFrLpaZ-X45Pn99uOZaH3QwCgUtMiImXnkjRnZ-6Ui6HPEg/viewform" target="_blank" rel="noopener" class="hero-cta">Open the Form in a New Tab →</a>
     </div>
 
     <div class="cta-spots">Study Design: Human Body and Product Efficacy Studies · April 2026</div>
