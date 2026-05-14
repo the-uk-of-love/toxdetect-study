@@ -1,0 +1,277 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);color:var(--color-text-primary)}
+.page{max-width:560px;margin:0 auto;padding:2rem 1rem}
+.logo-bar{font-size:12px;color:var(--color-text-tertiary);letter-spacing:.08em;text-transform:uppercase;margin-bottom:2rem;padding-bottom:1rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+h1{font-size:22px;font-weight:500;line-height:1.3;margin-bottom:.5rem}
+.sub{font-size:15px;color:var(--color-text-secondary);margin-bottom:2rem;line-height:1.6}
+.counter-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-lg);padding:1.5rem;margin-bottom:1.5rem;text-align:center}
+.counter-label{font-size:13px;color:var(--color-text-secondary);margin-bottom:.5rem;letter-spacing:.04em}
+.counter-num{font-size:48px;font-weight:500;line-height:1;margin-bottom:.25rem}
+.counter-num.green{color:#0F6E56}
+.counter-num.amber{color:#854F0B}
+.counter-num.red{color:#A32D2D}
+.counter-sub{font-size:13px;color:var(--color-text-secondary)}
+.phase-bar{display:flex;gap:6px;margin-bottom:1.5rem}
+.phase-seg{height:6px;border-radius:3px;flex:1}
+.seg-main{background:#1D9E75}
+.seg-reserve{background:#EF9F27}
+.seg-empty{background:var(--color-border-tertiary)}
+.phase-legend{display:flex;gap:16px;margin-bottom:1.5rem;font-size:12px;color:var(--color-text-secondary)}
+.legend-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle}
+.btn-book{display:block;width:100%;padding:14px;border-radius:var(--border-radius-md);font-size:15px;font-weight:500;text-align:center;text-decoration:none;cursor:pointer;border:none;background:#0F6E56;color:#E1F5EE;margin-bottom:.75rem}
+.btn-book:hover{background:#085041}
+.btn-reserve{display:block;width:100%;padding:14px;border-radius:var(--border-radius-md);font-size:15px;font-weight:500;text-align:center;text-decoration:none;cursor:pointer;border:none;background:#FAC775;color:#633806;margin-bottom:.75rem}
+.btn-reserve:hover{background:#EF9F27}
+.btn-disabled{display:block;width:100%;padding:14px;border-radius:var(--border-radius-md);font-size:15px;font-weight:500;text-align:center;border:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);color:var(--color-text-tertiary);cursor:not-allowed;margin-bottom:.75rem}
+.status-msg{font-size:14px;padding:12px 16px;border-radius:var(--border-radius-md);margin-bottom:1.5rem;line-height:1.5}
+.status-open{background:#E1F5EE;color:#085041}
+.status-reserve{background:#FAEEDA;color:#633806}
+.status-full{background:#FCEBEB;color:#791F1F}
+.divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:2rem 0}
+.admin-toggle{font-size:13px;color:var(--color-text-tertiary);cursor:pointer;text-align:center;padding:.5rem;border-radius:var(--border-radius-md)}
+.admin-toggle:hover{color:var(--color-text-secondary);background:var(--color-background-secondary)}
+.admin-panel{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-top:1rem}
+.admin-panel h3{font-size:14px;font-weight:500;margin-bottom:1rem;color:var(--color-text-secondary)}
+.admin-row{display:flex;align-items:center;gap:8px;margin-bottom:.75rem}
+.admin-row label{font-size:13px;color:var(--color-text-secondary);min-width:120px}
+.admin-row input[type=number]{width:70px;padding:6px 8px;font-size:14px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary)}
+.admin-row input[type=password]{flex:1;padding:6px 8px;font-size:14px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary)}
+.btn-sm{padding:6px 14px;font-size:13px;border-radius:var(--border-radius-md);cursor:pointer;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary)}
+.btn-sm:hover{background:var(--color-background-secondary)}
+.btn-apply{background:#1B2A4A;color:#E6F1FB;border-color:#1B2A4A}
+.btn-apply:hover{background:#0C1D38}
+.admin-msg{font-size:12px;margin-top:.5rem;padding:6px 10px;border-radius:var(--border-radius-md)}
+.admin-msg.ok{background:#E1F5EE;color:#085041}
+.admin-msg.err{background:#FCEBEB;color:#791F1F}
+.api-box{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 12px;margin-top:.75rem}
+.api-box p{font-size:12px;color:var(--color-text-secondary);margin-bottom:6px}
+.api-url{font-size:11px;font-family:var(--font-mono);background:var(--color-background-secondary);padding:6px 8px;border-radius:4px;word-break:break-all;color:var(--color-text-primary)}
+</style>
+
+<div class="page">
+  <div class="logo-bar">ToxDetect Study UK &nbsp;·&nbsp; toxdetect-study-uk.com</div>
+
+  <h1>Book your screening call</h1>
+  <p class="sub">A short 15-minute call with our study coordinator to confirm your eligibility and answer any questions before the study begins.</p>
+
+  <div class="counter-card">
+    <div class="counter-label">Places remaining</div>
+    <div class="counter-num green" id="counter-num">16</div>
+    <div class="counter-sub" id="counter-sub">out of 16 main places available</div>
+  </div>
+
+  <div class="phase-bar" id="phase-bar"></div>
+  <div class="phase-legend">
+    <span><span class="legend-dot" style="background:#1D9E75"></span>Main group booked</span>
+    <span><span class="legend-dot" style="background:#EF9F27"></span>Reserve group booked</span>
+    <span><span class="legend-dot" style="background:var(--color-border-tertiary)"></span>Available</span>
+  </div>
+
+  <div class="status-msg status-open" id="status-msg">
+    <i class="ti ti-circle-check" style="font-size:16px;vertical-align:-2px;margin-right:6px" aria-hidden="true"></i>
+    Places are available. Book your screening call below.
+  </div>
+
+  <div id="btn-area">
+    <a id="btn-main" class="btn-book" href="https://calendly.com/momchil-pavlov/toxdetect-study-call" target="_blank">
+      <i class="ti ti-calendar" style="font-size:16px;vertical-align:-2px;margin-right:8px" aria-hidden="true"></i>
+      Book your screening call
+    </a>
+  </div>
+
+  <hr class="divider">
+
+  <div class="admin-toggle" id="admin-toggle" onclick="toggleAdmin()">
+    <i class="ti ti-lock" style="font-size:14px;vertical-align:-2px;margin-right:6px" aria-hidden="true"></i>
+    Study coordinator access
+  </div>
+
+  <div id="admin-area" style="display:none">
+    <div class="admin-panel">
+      <h3><i class="ti ti-settings" style="font-size:15px;vertical-align:-2px;margin-right:6px" aria-hidden="true"></i>Admin panel</h3>
+
+      <div class="admin-row">
+        <label>Password</label>
+        <input type="password" id="admin-pw" placeholder="Enter password" onkeydown="if(event.key==='Enter')unlockAdmin()">
+        <button class="btn-sm btn-apply" onclick="unlockAdmin()">Unlock</button>
+      </div>
+      <div id="admin-msg-pw"></div>
+
+      <div id="admin-controls" style="display:none;margin-top:1rem">
+        <div class="admin-row">
+          <label>Bookings count</label>
+          <input type="number" id="set-booked" min="0" max="21" value="0">
+          <button class="btn-sm btn-apply" onclick="applyCount()">Apply</button>
+          <button class="btn-sm" onclick="resetAll()">Reset to 0</button>
+        </div>
+        <div class="admin-row">
+          <label>Main places</label>
+          <input type="number" id="set-main" min="1" max="50" value="16">
+          <label style="min-width:80px">Reserve</label>
+          <input type="number" id="set-reserve" min="0" max="20" value="5">
+          <button class="btn-sm btn-apply" onclick="applyLimits()">Save</button>
+        </div>
+        <div id="admin-msg-ctrl"></div>
+
+        <div class="api-box">
+          <p><i class="ti ti-plug" style="font-size:13px;vertical-align:-2px;margin-right:4px" aria-hidden="true"></i>Zapier webhook URL — paste this into your Zapier Calendly zap to auto-decrement the counter:</p>
+          <div class="api-url" id="webhook-url">https://toxdetect-study-uk.com/api/booking-webhook</div>
+          <p style="margin-top:6px">Zapier action: POST to this URL with body <code style="font-size:11px">{"action":"decrement"}</code></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const ADMIN_PASSWORD = 'toxdetect2026';
+const MAIN_TOTAL = 16;
+const RESERVE_TOTAL = 5;
+const CALENDLY_URL = 'https://calendly.com/momchil-pavlov/toxdetect-study-call';
+
+let state = {
+  booked: 0,
+  mainTotal: MAIN_TOTAL,
+  reserveTotal: RESERVE_TOTAL
+};
+
+async function loadState() {
+  try {
+    const r = await window.storage.get('booking-state');
+    if (r) {
+      const saved = JSON.parse(r.value);
+      state = {...state, ...saved};
+    }
+  } catch(e) {}
+  render();
+}
+
+async function saveState() {
+  try {
+    await window.storage.set('booking-state', JSON.stringify(state));
+  } catch(e) {}
+}
+
+function render() {
+  const {booked, mainTotal, reserveTotal} = state;
+  const total = mainTotal + reserveTotal;
+  const mainBooked = Math.min(booked, mainTotal);
+  const reserveBooked = Math.max(0, booked - mainTotal);
+  const mainLeft = Math.max(0, mainTotal - mainBooked);
+  const reserveLeft = Math.max(0, reserveTotal - reserveBooked);
+  const allFull = booked >= total;
+  const mainFull = booked >= mainTotal;
+
+  const numEl = document.getElementById('counter-num');
+  const subEl = document.getElementById('counter-sub');
+  const statusEl = document.getElementById('status-msg');
+  const btnArea = document.getElementById('btn-area');
+
+  if (!mainFull) {
+    numEl.textContent = mainLeft;
+    numEl.className = 'counter-num ' + (mainLeft > 5 ? 'green' : mainLeft > 0 ? 'amber' : 'red');
+    subEl.textContent = 'out of ' + mainTotal + ' main places available';
+    statusEl.className = 'status-msg ' + (mainLeft > 3 ? 'status-open' : 'status-reserve');
+    statusEl.innerHTML = '<i class="ti ti-circle-check" style="font-size:16px;vertical-align:-2px;margin-right:6px" aria-hidden="true"></i> ' +
+      (mainLeft > 3 ? 'Places are available. Book your screening call below.' :
+       'Only ' + mainLeft + ' place' + (mainLeft===1?'':'s') + ' remaining — book now to secure your spot.');
+    btnArea.innerHTML = '<a class="btn-book" href="' + CALENDLY_URL + '" target="_blank"><i class="ti ti-calendar" style="font-size:16px;vertical-align:-2px;margin-right:8px" aria-hidden="true"></i>Book your screening call</a>';
+  } else if (!allFull) {
+    numEl.textContent = reserveLeft;
+    numEl.className = 'counter-num amber';
+    subEl.textContent = 'reserve places remaining (main group is full)';
+    statusEl.className = 'status-msg status-reserve';
+    statusEl.innerHTML = '<i class="ti ti-alert-triangle" style="font-size:16px;vertical-align:-2px;margin-right:6px" aria-hidden="true"></i> The main group is now full. You can still join the reserve list — reserve participants are contacted first if a main place becomes available.';
+    btnArea.innerHTML = '<a class="btn-reserve" href="' + CALENDLY_URL + '" target="_blank"><i class="ti ti-calendar" style="font-size:16px;vertical-align:-2px;margin-right:8px" aria-hidden="true"></i>Join the reserve list</a>';
+  } else {
+    numEl.textContent = '0';
+    numEl.className = 'counter-num red';
+    subEl.textContent = 'all places — including the reserve list — are now full';
+    statusEl.className = 'status-msg status-full';
+    statusEl.innerHTML = '<i class="ti ti-x" style="font-size:16px;vertical-align:-2px;margin-right:6px" aria-hidden="true"></i> Thank you for your interest in the ToxDetect Study UK. All participant places — including our reserve list — are now fully booked. We are no longer accepting applications for this round.';
+    btnArea.innerHTML = '<div class="btn-disabled"><i class="ti ti-calendar-off" style="font-size:16px;vertical-align:-2px;margin-right:8px" aria-hidden="true"></i>Bookings are now closed</div>';
+  }
+
+  renderBar();
+
+  const bookedInput = document.getElementById('set-booked');
+  if (bookedInput) bookedInput.value = booked;
+  const mainInput = document.getElementById('set-main');
+  if (mainInput) mainInput.value = mainTotal;
+  const reserveInput = document.getElementById('set-reserve');
+  if (reserveInput) reserveInput.value = reserveTotal;
+}
+
+function renderBar() {
+  const {booked, mainTotal, reserveTotal} = state;
+  const total = mainTotal + reserveTotal;
+  const bar = document.getElementById('phase-bar');
+  bar.innerHTML = '';
+  for (let i = 0; i < total; i++) {
+    const seg = document.createElement('div');
+    seg.className = 'phase-seg ' +
+      (i < mainTotal && i < booked ? 'seg-main' :
+       i >= mainTotal && i < booked ? 'seg-reserve' : 'seg-empty');
+    bar.appendChild(seg);
+  }
+}
+
+function toggleAdmin() {
+  const area = document.getElementById('admin-area');
+  area.style.display = area.style.display === 'none' ? 'block' : 'none';
+}
+
+function unlockAdmin() {
+  const pw = document.getElementById('admin-pw').value;
+  const msg = document.getElementById('admin-msg-pw');
+  if (pw === ADMIN_PASSWORD) {
+    document.getElementById('admin-controls').style.display = 'block';
+    msg.className = 'admin-msg ok';
+    msg.textContent = 'Access granted.';
+    document.getElementById('set-booked').value = state.booked;
+    document.getElementById('set-main').value = state.mainTotal;
+    document.getElementById('set-reserve').value = state.reserveTotal;
+  } else {
+    msg.className = 'admin-msg err';
+    msg.textContent = 'Incorrect password.';
+  }
+}
+
+function applyCount() {
+  const val = parseInt(document.getElementById('set-booked').value);
+  if (isNaN(val) || val < 0) return;
+  state.booked = val;
+  saveState();
+  render();
+  showAdminMsg('Booking count updated to ' + val + '.', 'ok');
+}
+
+function resetAll() {
+  state.booked = 0;
+  saveState();
+  render();
+  showAdminMsg('Counter reset to 0.', 'ok');
+  document.getElementById('set-booked').value = 0;
+}
+
+function applyLimits() {
+  const m = parseInt(document.getElementById('set-main').value);
+  const r = parseInt(document.getElementById('set-reserve').value);
+  if (isNaN(m) || isNaN(r) || m < 1 || r < 0) return;
+  state.mainTotal = m;
+  state.reserveTotal = r;
+  saveState();
+  render();
+  showAdminMsg('Limits saved — main: ' + m + ', reserve: ' + r + '.', 'ok');
+}
+
+function showAdminMsg(text, type) {
+  const el = document.getElementById('admin-msg-ctrl');
+  el.className = 'admin-msg ' + type;
+  el.textContent = text;
+  setTimeout(() => el.textContent = '', 3000);
+}
+
+loadState();
+</script>
