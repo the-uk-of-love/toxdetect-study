@@ -359,6 +359,83 @@
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .hidden { display: none !important; }
+
+    /* ── RESERVE FORM ── */
+    .reserve-form-wrap {
+      background: var(--white);
+      border: 1px solid #F5C97A;
+      border-radius: 16px;
+      padding: 28px 24px;
+      margin-top: 20px;
+    }
+    .reserve-form-wrap h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--amber);
+      margin-bottom: 8px;
+    }
+    .reserve-form-wrap .reserve-intro {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .reserve-form-wrap .reserve-intro strong { color: var(--text); }
+    .form-group { margin-bottom: 14px; }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 15px;
+      font-family: 'DM Sans', sans-serif;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg);
+      color: var(--text);
+      transition: border-color .2s;
+    }
+    .form-group input:focus {
+      outline: none;
+      border-color: #EF9F27;
+      background: var(--white);
+    }
+    .form-group .optional { font-size: 11px; color: #aab4c4; font-weight: 400; margin-left: 4px; }
+    .btn-submit-reserve {
+      width: 100%;
+      padding: 14px;
+      background: #EF9F27;
+      color: #412402;
+      border: none;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: background .2s;
+    }
+    .btn-submit-reserve:hover { background: #BA7517; color: white; }
+    .btn-submit-reserve:disabled { background: #eef2f7; color: #aab4c4; cursor: not-allowed; }
+    .reserve-success { text-align: center; padding: 24px 0 8px; }
+    .reserve-success .checkmark { font-size: 40px; margin-bottom: 12px; display: block; }
+    .reserve-success h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--amber);
+      margin-bottom: 8px;
+    }
+    .reserve-success p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+    .form-err { font-size: 12px; color: var(--red); margin-top: 4px; }
   </style>
 </head>
 <body>
@@ -404,9 +481,50 @@
     </div>
   </div>
 
-  <div class="info-box">
+  <div class="info-box" id="info-box-main">
     <strong>What to expect on the call</strong><br>
     Caroline will walk you through the study schedule, answer any questions about the supplement or testing, and confirm your start date. The call takes around 15 minutes. When booking, please use the <strong>Notes field</strong> to indicate whether you prefer <strong>phone</strong> or <strong>WhatsApp video call</strong>.
+  </div>
+
+
+  <!-- Reserve list form — shown only when main group is full -->
+  <div id="reserve-form-area" style="display:none;">
+    <div class="reserve-form-wrap">
+      <h2>Join the Reserve List</h2>
+      <div class="reserve-intro">
+        The main group of 40 participants is now full. However, we are building a small reserve list for two reasons:
+        <br><br>
+        <strong>1.</strong> If a confirmed participant drops out, you will be the first we contact to take their place — with full participation and the £400 compensation.<br><br>
+        <strong>2.</strong> We may decide to expand the group beyond 40. If we do, reserve list members will be invited first.<br><br>
+        Leave your details below and we will be in touch as soon as a place becomes available.
+      </div>
+      <div id="reserve-form-fields">
+        <div class="form-group">
+          <label for="r-name">First Name</label>
+          <input type="text" id="r-name" placeholder="Your first name" autocomplete="given-name">
+          <div class="form-err" id="err-name"></div>
+        </div>
+        <div class="form-group">
+          <label for="r-email">Email Address</label>
+          <input type="email" id="r-email" placeholder="your@email.com" autocomplete="email">
+          <div class="form-err" id="err-email"></div>
+        </div>
+        <div class="form-group">
+          <label for="r-phone">Phone Number</label>
+          <input type="tel" id="r-phone" placeholder="+44 7700 000000" autocomplete="tel">
+          <div class="form-err" id="err-phone"></div>
+        </div>
+        <button class="btn-submit-reserve" id="btn-reserve-submit" onclick="submitReserve()">
+          ✉️ &nbsp;Add me to the reserve list
+        </button>
+        <div class="form-err" id="err-submit" style="margin-top:8px;text-align:center;"></div>
+      </div>
+      <div id="reserve-success" class="reserve-success" style="display:none;">
+        <span class="checkmark">✅</span>
+        <h3>You're on the reserve list!</h3>
+        <p>Thank you — we have your details. We will contact you as soon as a place becomes available, or if we decide to expand the group. Keep an eye on your inbox.</p>
+      </div>
+    </div>
   </div>
 
   <hr class="divider">
@@ -453,6 +571,12 @@
           PATCH https://ewinordlbzuimtgssusy.supabase.co/rest/v1/counter?name=eq.bookings
         </span><br>
         Body: <span style="font-family:monospace">{"value": [current_value + 1]}</span>
+      </div>
+      <div style="margin-top:12px;padding:12px 14px;background:var(--bg);border-radius:8px;font-size:12px;color:var(--text-muted);line-height:1.6">
+        <strong style="color:var(--text)">Reserve list entries: </strong>
+        <span id="reserve-count" style="font-family:monospace;color:var(--amber)">—</span>
+        <button class="btn-sm" style="margin-left:10px;font-size:11px;padding:3px 10px;" onclick="loadReserveList()">View list</button>
+        <div id="reserve-list-preview" style="margin-top:8px;display:none;"></div>
       </div>
     </div>
   </div>
@@ -553,10 +677,12 @@
       card.className = 'counter-card phase-reserve';
       numEl.textContent = reserveLeft;
       numEl.className = 'counter-number amber';
-      descEl.textContent = 'reserve places remaining — main group is full';
+      descEl.textContent = 'reserve list places remaining';
       statusEl.className = 'status-banner status-reserve';
-      statusEl.innerHTML = '⚠️ The main group is now full. You can still join the <strong>reserve list</strong> — reserve participants are contacted first if a main place becomes available.';
-      btnArea.innerHTML = '<a class="btn-primary btn-reserve-cta" href="' + CALENDLY_URL + '" target="_blank" onclick="handleBook()">📅 &nbsp;Join the reserve list</a>';
+      statusEl.innerHTML = '⚠️ The main group of 40 is now full. You can still join our <strong>reserve list</strong> — reserve participants are the first we contact if a place opens up, or if we decide to expand the group.';
+      btnArea.innerHTML = '<a class="btn-primary btn-reserve-cta" href="#reserve-form-area" onclick="document.getElementById('reserve-form-area').style.display='block';setTimeout(()=>document.getElementById('reserve-form-area').scrollIntoView({behavior:'smooth'}),50)">📋 &nbsp;Join the reserve list below ↓</a>';
+      document.getElementById('reserve-form-area').style.display = 'block';
+      document.getElementById('info-box-main').style.display = 'none';
 
     } else {
       card.className = 'counter-card phase-full';
@@ -629,6 +755,90 @@
     el.className = 'admin-msg msg-' + type;
     el.textContent = text;
     setTimeout(() => el.textContent = '', 4000);
+  }
+
+
+  async function submitReserve() {
+    const name = document.getElementById('r-name').value.trim();
+    const email = document.getElementById('r-email').value.trim();
+    const phone = document.getElementById('r-phone').value.trim();
+    let valid = true;
+
+    document.getElementById('err-name').textContent = '';
+    document.getElementById('err-email').textContent = '';
+    document.getElementById('err-phone').textContent = '';
+    document.getElementById('err-submit').textContent = '';
+
+    if (!name) {
+      document.getElementById('err-name').textContent = 'Please enter your first name.';
+      valid = false;
+    }
+    if (!email || !/^[^@]+@[^@]+\.[^@]+$/.test(email)) {
+      document.getElementById('err-email').textContent = 'Please enter a valid email address.';
+      valid = false;
+    }
+    if (!phone) {
+      document.getElementById('err-phone').textContent = 'Please enter your phone number.';
+      valid = false;
+    }
+    if (!valid) return;
+
+    const btn = document.getElementById('btn-reserve-submit');
+    btn.disabled = true;
+    btn.textContent = 'Submitting...';
+
+    try {
+      const res = await fetch(SUPABASE_URL + '/rest/v1/reserve_list', {
+        method: 'POST',
+        headers: { ...headers, 'Prefer': 'return=minimal' },
+        body: JSON.stringify({ first_name: name, email: email, phone: phone, submitted_at: new Date().toISOString() })
+      });
+
+      if (res.ok || res.status === 201) {
+        document.getElementById('reserve-form-fields').style.display = 'none';
+        document.getElementById('reserve-success').style.display = 'block';
+      } else {
+        const errData = await res.json().catch(() => ({}));
+        // Handle duplicate email gracefully
+        if (errData.code === '23505') {
+          document.getElementById('reserve-form-fields').style.display = 'none';
+          document.getElementById('reserve-success').style.display = 'block';
+        } else {
+          document.getElementById('err-submit').textContent = 'Something went wrong. Please try again or email us at info@toxdetect-study-uk.com.';
+          btn.disabled = false;
+          btn.textContent = '✉️  Add me to the reserve list';
+        }
+      }
+    } catch(e) {
+      document.getElementById('err-submit').textContent = 'Connection error. Please check your internet and try again.';
+      btn.disabled = false;
+      btn.textContent = '✉️  Add me to the reserve list';
+    }
+  }
+
+
+  async function loadReserveList() {
+    try {
+      const res = await fetch(SUPABASE_URL + '/rest/v1/reserve_list?select=first_name,email,phone,submitted_at&order=submitted_at.asc', { headers });
+      const data = await res.json();
+      document.getElementById('reserve-count').textContent = data.length;
+      const preview = document.getElementById('reserve-list-preview');
+      preview.style.display = 'block';
+      if (data.length === 0) {
+        preview.innerHTML = '<em>No reserve entries yet.</em>';
+        return;
+      }
+      preview.innerHTML = data.map((r, i) =>
+        '<div style="padding:5px 0;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:baseline;">' +
+        '<span style="color:var(--amber);min-width:18px;">' + (i+1) + '.</span>' +
+        '<span style="font-weight:500;min-width:90px;">' + r.first_name + '</span>' +
+        '<span style="color:var(--teal);flex:1;">' + r.email + '</span>' +
+        (r.phone ? '<span>' + r.phone + '</span>' : '') +
+        '</div>'
+      ).join('');
+    } catch(e) {
+      document.getElementById('reserve-list-preview').innerHTML = '<em style="color:var(--red)">Error loading list.</em>';
+    }
   }
 
   fetchCount();
