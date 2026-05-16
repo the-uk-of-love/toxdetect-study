@@ -487,42 +487,32 @@
   </div>
 
 
-  <!-- Reserve list form — shown only when main group is full -->
+  <!-- Reserve list — name + Calendly -->
   <div id="reserve-form-area" style="display:none;">
     <div class="reserve-form-wrap">
       <h2>Join the Reserve List</h2>
       <div class="reserve-intro">
-        The main group of 40 participants is now full. However, we are building a small reserve list for two reasons:
+        The main group of 40 participants is now full. However, we are keeping a small reserve list for two reasons:
         <br><br>
-        <strong>1.</strong> If a confirmed participant drops out, you will be the first we contact to take their place — with full participation and the £400 compensation.<br><br>
-        <strong>2.</strong> We may decide to expand the group beyond 40. If we do, reserve list members will be invited first.<br><br>
-        Leave your details below and we will be in touch as soon as a place becomes available.
+        <strong>1.</strong> If a confirmed participant drops out, you will be the first we contact to take their place — with full participation and the <strong>£400 compensation</strong>.<br><br>
+        <strong>2.</strong> We may decide to expand the group beyond 40. Reserve list members will be invited first.<br><br>
+        Enter your name below, then book a short screening call with Caroline. We will be in touch as soon as a place becomes available.
       </div>
       <div id="reserve-form-fields">
         <div class="form-group">
-          <label for="r-name">First Name</label>
-          <input type="text" id="r-name" placeholder="Your first name" autocomplete="given-name">
+          <label for="r-name">Your Name</label>
+          <input type="text" id="r-name" placeholder="Your full name" autocomplete="name">
           <div class="form-err" id="err-name"></div>
         </div>
-        <div class="form-group">
-          <label for="r-email">Email Address</label>
-          <input type="email" id="r-email" placeholder="your@email.com" autocomplete="email">
-          <div class="form-err" id="err-email"></div>
-        </div>
-        <div class="form-group">
-          <label for="r-phone">Phone Number</label>
-          <input type="tel" id="r-phone" placeholder="+44 7700 000000" autocomplete="tel">
-          <div class="form-err" id="err-phone"></div>
-        </div>
-        <button class="btn-submit-reserve" id="btn-reserve-submit" onclick="submitReserve()">
-          ✉️ &nbsp;Add me to the reserve list
+        <button class="btn-submit-reserve" id="btn-reserve-submit" onclick="submitReserveAndBook()">
+          📅 &nbsp;Save my name &amp; book my call
         </button>
         <div class="form-err" id="err-submit" style="margin-top:8px;text-align:center;"></div>
       </div>
       <div id="reserve-success" class="reserve-success" style="display:none;">
         <span class="checkmark">✅</span>
-        <h3>You're on the reserve list!</h3>
-        <p>Thank you — we have your details. We will contact you as soon as a place becomes available, or if we decide to expand the group. Keep an eye on your inbox.</p>
+        <h3>Opening Calendly...</h3>
+        <p>You have been added to the reserve list. The Calendly booking page is opening now — please complete your booking to confirm your place on the reserve list.</p>
       </div>
     </div>
   </div>
@@ -680,7 +670,7 @@
       descEl.textContent = 'reserve list places remaining';
       statusEl.className = 'status-banner status-reserve';
       statusEl.innerHTML = '⚠️ The main group of 40 is now full. You can still join our <strong>reserve list</strong> — reserve participants are the first we contact if a place opens up, or if we decide to expand the group.';
-      btnArea.innerHTML = '<a class="btn-primary btn-reserve-cta" href="#reserve-form-area" onclick="document.getElementById('reserve-form-area').style.display='block';setTimeout(()=>document.getElementById('reserve-form-area').scrollIntoView({behavior:'smooth'}),50)">📋 &nbsp;Join the reserve list below ↓</a>';
+      btnArea.innerHTML = '<a class="btn-primary btn-reserve-cta" href="#reserve-form-area" onclick="document.getElementById(\'reserve-form-area\').style.display=\'block\';setTimeout(()=>document.getElementById(\'reserve-form-area\').scrollIntoView({behavior:\'smooth\'}),50)">📋 &nbsp;Join the reserve list below ↓</a>';
       document.getElementById('reserve-form-area').style.display = 'block';
       document.getElementById('info-box-main').style.display = 'none';
 
@@ -758,62 +748,35 @@
   }
 
 
-  async function submitReserve() {
+  async function submitReserveAndBook() {
     const name = document.getElementById('r-name').value.trim();
-    const email = document.getElementById('r-email').value.trim();
-    const phone = document.getElementById('r-phone').value.trim();
-    let valid = true;
-
     document.getElementById('err-name').textContent = '';
-    document.getElementById('err-email').textContent = '';
-    document.getElementById('err-phone').textContent = '';
     document.getElementById('err-submit').textContent = '';
 
     if (!name) {
-      document.getElementById('err-name').textContent = 'Please enter your first name.';
-      valid = false;
+      document.getElementById('err-name').textContent = 'Please enter your name.';
+      return;
     }
-    if (!email || !/^[^@]+@[^@]+\.[^@]+$/.test(email)) {
-      document.getElementById('err-email').textContent = 'Please enter a valid email address.';
-      valid = false;
-    }
-    if (!phone) {
-      document.getElementById('err-phone').textContent = 'Please enter your phone number.';
-      valid = false;
-    }
-    if (!valid) return;
 
     const btn = document.getElementById('btn-reserve-submit');
     btn.disabled = true;
-    btn.textContent = 'Submitting...';
+    btn.textContent = 'Saving...';
 
     try {
-      const res = await fetch(SUPABASE_URL + '/rest/v1/reserve_list', {
+      await fetch(SUPABASE_URL + '/rest/v1/reserve_list', {
         method: 'POST',
         headers: { ...headers, 'Prefer': 'return=minimal' },
-        body: JSON.stringify({ first_name: name, email: email, phone: phone, submitted_at: new Date().toISOString() })
+        body: JSON.stringify({ first_name: name, submitted_at: new Date().toISOString() })
       });
-
-      if (res.ok || res.status === 201) {
-        document.getElementById('reserve-form-fields').style.display = 'none';
-        document.getElementById('reserve-success').style.display = 'block';
-      } else {
-        const errData = await res.json().catch(() => ({}));
-        // Handle duplicate email gracefully
-        if (errData.code === '23505') {
-          document.getElementById('reserve-form-fields').style.display = 'none';
-          document.getElementById('reserve-success').style.display = 'block';
-        } else {
-          document.getElementById('err-submit').textContent = 'Something went wrong. Please try again or email us at info@toxdetect-study-uk.com.';
-          btn.disabled = false;
-          btn.textContent = '✉️  Add me to the reserve list';
-        }
-      }
     } catch(e) {
-      document.getElementById('err-submit').textContent = 'Connection error. Please check your internet and try again.';
-      btn.disabled = false;
-      btn.textContent = '✉️  Add me to the reserve list';
+      // Don't block Calendly even if Supabase fails
+      console.error('Supabase save error:', e);
     }
+
+    // Show success message and open Calendly
+    document.getElementById('reserve-form-fields').style.display = 'none';
+    document.getElementById('reserve-success').style.display = 'block';
+    setTimeout(() => { window.open(CALENDLY_URL, '_blank'); }, 800);
   }
 
 
