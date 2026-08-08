@@ -84,7 +84,7 @@
   .section-head{max-width:640px; margin-bottom:44px;}
   .section-head p{color:var(--muted); font-size:1.05rem;}
 
-  section{padding:62px 0;}
+  section{padding:88px 0;}
   .alt{background:var(--paper-alt);}
 
   /* ---------- Facet icon (signature bullet) ---------- */
@@ -143,14 +143,14 @@
   .burger svg{width:24px; height:24px; color:var(--ink);}
 
   /* ---------- Hero ---------- */
-  .hero{padding:49px 0 63px 0; overflow:hidden; position:relative;}
+  .hero{padding:70px 0 90px 0; overflow:hidden; position:relative;}
   .hero .wrap{display:grid; grid-template-columns:1.05fr 0.95fr; gap:56px; align-items:center;}
   .hero-copy p.lead{font-size:1.15rem; color:var(--muted); max-width:520px;}
   .hero-cta{display:flex; align-items:center; gap:14px; margin-top:30px; flex-wrap:wrap;}
   .hero-fine{font-family:var(--mono); font-size:0.78rem; color:var(--muted); margin-top:18px; letter-spacing:0.02em;}
 
   .hero-visual{position:relative; display:flex; align-items:center; justify-content:center;}
-  .hero-visual svg, .hero-visual img{width:100%; max-width:420px; height:auto;}
+  .hero-visual svg{width:100%; max-width:420px; height:auto;}
   .crystal-float{animation:floaty 7s ease-in-out infinite;}
   @keyframes floaty{
     0%,100%{transform:translateY(0px) rotate(0deg);}
@@ -171,7 +171,6 @@
     border:1px solid var(--border-soft); box-shadow:0 24px 48px -28px rgba(14,27,41,0.25);
   }
   .photo-panel img{width:100%; display:block;}
-  .photo-panel-compact{max-width:640px; margin-left:auto; margin-right:auto;}
 
   /* ---------- Hidden cost / effects grid ---------- */
   .effects-intro{max-width:720px; color:var(--muted); font-size:1.02rem; margin-bottom:8px;}
@@ -180,7 +179,7 @@
     background:var(--card); border:1px solid var(--border-soft); border-radius:var(--radius);
     padding:26px 22px; display:flex; flex-direction:column; align-items:flex-start; gap:14px;
   }
-  .effect-card img{width:96px; height:96px; border-radius:50%; object-fit:cover; flex:none;}
+  .effect-card img{width:64px; height:64px; border-radius:50%; object-fit:cover; flex:none;}
   .effect-card h4{font-size:0.98rem; font-family:var(--sans); font-weight:600; color:var(--ink);}
   .effect-card p{font-size:0.87rem; color:var(--muted); margin:0;}
   .effects-caveat{
@@ -372,7 +371,7 @@
     .effects-grid{grid-template-columns:1fr;}
     .form-panel, .supplement-panel{padding:26px;}
     .stat-strip{gap:20px;}
-    section{padding:45px 0;}
+    section{padding:64px 0;}
     .header-cta .phone-link{display:none;}
   }
 
@@ -459,7 +458,7 @@
   <div class="wrap">
     <div class="hero-copy">
       <div class="eyebrow">
-        <svg class="facet" viewBox="0 0 16 16"><polygon points="8,0 16,8 8,16 0,8"/></svg>
+       
         UK-Wide · Home Test Kits · 2026
       </div>
       <h1>How much fluoride is really in your system?</h1>
@@ -478,9 +477,7 @@
       </div>
     </div>
 
-    <div class="hero-visual">
-      <img class="crystal-float" src="images/flouride_hero.png" alt="Fluoride water droplet illustration with molecular structure">
-    </div>
+    
   </div>
 </section>
 
@@ -493,7 +490,7 @@
       <p>Fluoride is a naturally occurring mineral ion. In parts of the UK it's added to the water supply to help protect teeth, and it's also present in toothpaste, mouthwash, tea, and a range of everyday foods and drinks. Because it comes from so many different sources at once, most people have very little idea of their own personal fluoride exposure — which is exactly what this study sets out to measure.</p>
     </div>
 
-    <div class="photo-panel photo-panel-compact">
+    <div class="photo-panel">
       <img src="images/Potential_Sources_of_Excess_Flouride.jpg" alt="Potential sources of excess fluoride: water, tea, toothpaste, medications, seafood, industrial pollution, non-stick cookware, and fluoridated water">
     </div>
 
@@ -565,7 +562,7 @@
       <div class="effect-card">
         <img src="images/pineal_gland_calcification.png" alt="Pineal gland calcification icon">
         <h4>Pineal Gland Calcification</h4>
-        <p>Fluoride can accumulate in the pineal gland, also known as the "third eye", which may affect sleep patterns, hormone regulation, and circadian rhythms.</p>
+        <p>Fluoride can accumulate in the pineal gland, which may affect sleep patterns, hormone regulation, and circadian rhythms.</p>
       </div>
       <div class="effect-card">
         <img src="images/kidney_damage.png" alt="Kidney damage icon">
